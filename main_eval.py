@@ -25,7 +25,7 @@ if __name__ == "__main__":
     utils.save_config(config, os.path.join(config.output_path, "config.txt"))
 
     net = Model(config.len_feature, config.num_classes, config.r_act)
-    net = net.cuda()
+    net = net.cpu()
     
     test_loader = data.DataLoader(
         ThumosFeature(data_path=config.data_path, mode='test',

@@ -25,9 +25,9 @@ def optimal_sequence_search(net, config, logger, train_loader):
         for i in range(len(train_loader.dataset)):
             _index, _data, _label, _point_anno, _, _, _ = next(loader_iter)
 
-            _data = _data.cuda()
-            _label = _label.cuda()
-            _point_anno = _point_anno.cuda()
+            _data = _data.cpu()
+            _label = _label.cpu()
+            _point_anno = _point_anno.cpu()
             
             _, cas_sigmoid_fuse, _ = net(_data, _label)
                         

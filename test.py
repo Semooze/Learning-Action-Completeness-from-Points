@@ -29,8 +29,8 @@ def test(net, config, logger, test_loader, test_info, step, model_file=None):
 
             _, _data, _label, _, _, vid_name, vid_num_seg = next(load_iter)
 
-            _data = _data.cuda()
-            _label = _label.cuda()
+            _data = _data.cpu()
+            _label = _label.cpu()
 
             vid_num_seg = vid_num_seg[0].cpu().item()
             

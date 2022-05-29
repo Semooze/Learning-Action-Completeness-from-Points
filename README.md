@@ -111,3 +111,10 @@ If you find this code useful, please cite our paper.
 
 ## Contact
 If you have any question or comment, please contact the first author of the paper - Pilhyeon Lee (lph1114@yonsei.ac.kr).
+
+
+
+use python 3.7 and downgrade protobuf to 3.20.1
+```bash
+pip install python protobuf=3.20.1
+```

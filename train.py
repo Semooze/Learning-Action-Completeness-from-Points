@@ -17,7 +17,7 @@ class Total_loss(nn.Module):
         loss_vid = self.ce_criterion(vid_score, label)
         loss_vid = loss_vid.mean()
         
-        point_anno = torch.cat((point_anno, torch.zeros((point_anno.shape[0], point_anno.shape[1], 1)).cuda()), dim=2)
+        point_anno = torch.cat((point_anno, torch.zeros((point_anno.shape[0], point_anno.shape[1], 1)).cpu()), dim=2)
         
         weighting_seq_act = point_anno.max(dim=2, keepdim=True)[0]
         num_actions = point_anno.max(dim=2)[0].sum(dim=1)
@@ -29,9 +29,9 @@ class Total_loss(nn.Module):
 
         _, bkg_seed = utils.select_seed(cas_sigmoid_fuse.detach().cpu(), point_anno.detach().cpu())
             
-        bkg_seed = bkg_seed.unsqueeze(-1).cuda()
+        bkg_seed = bkg_seed.unsqueeze(-1).cpu()
 
-        point_anno_bkg = torch.zeros_like(point_anno).cuda()
+        point_anno_bkg = torch.zeros_like(point_anno).cpu()
         point_anno_bkg[:,:,-1] = 1
 
         weighting_seq_bkg = bkg_seed
@@ -47,8 +47,8 @@ class Total_loss(nn.Module):
         loss_feat = 0
 
         if len(stored_info['new_dense_anno'].shape) > 1:
-            new_dense_anno = stored_info['new_dense_anno'].cuda()
-            new_dense_anno = torch.cat((new_dense_anno, torch.zeros((new_dense_anno.shape[0], new_dense_anno.shape[1], 1)).cuda()), dim=2)
+            new_dense_anno = stored_info['new_dense_anno'].cpu()
+            new_dense_anno = torch.cat((new_dense_anno, torch.zeros((new_dense_anno.shape[0], new_dense_anno.shape[1], 1)).cpu()), dim=2)
                     
             act_idx_diff = new_dense_anno[:,1:] - new_dense_anno[:,:-1]
             loss_score_act = 0
@@ -114,7 +114,7 @@ class Total_loss(nn.Module):
                     if sum(label_lst) > 1:
                         feature_lst = torch.stack(feature_lst, 0).clone()
                         feature_lst = feature_lst / torch.norm(feature_lst, dim=1, p=2).unsqueeze(1)
-                        label_lst = torch.tensor(label_lst).cuda().float()
+                        label_lst = torch.tensor(label_lst).cpu().float()
 
                         sim_matrix = torch.matmul(feature_lst, torch.transpose(feature_lst, 0, 1)) / self.tau
 
@@ -199,9 +199,9 @@ def train(net, config, loader_iter, optimizer, criterion, logger, step):
 
         _, _data, _label, _point_anno, stored_info, _, _ = next(loader_iter)
 
-        _data = _data.cuda()
-        _label = _label.cuda()
-        _point_anno = _point_anno.cuda()
+        _data = _data.cpu()
+        _label = _label.cpu()
+        _point_anno = _point_anno.cpu()
 
         vid_score, cas_sigmoid_fuse, features = net(_data, _label)
             
