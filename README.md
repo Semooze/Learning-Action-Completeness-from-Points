@@ -111,3 +111,33 @@ If you find this code useful, please cite our paper.
 
 ## Contact
 If you have any question or comment, please contact the first author of the paper - Pilhyeon Lee (lph1114@yonsei.ac.kr).
+
+```bash
+conda create -n learning-action python=3.6.9 -y
+conda install pytorch==1.6.0 torchvision==0.7.0 cudatoolkit=10.2 -c pytorch
+pip install joblib==0.13.0 numpy==1.18.5 pandas==1.1.5 scikit-learn==0.20.0 scipy==1.4.1 tensorboard==1.15.0 tensorflow==1.15.0 tensorflow-estimator==1.15.1 tqdm==4.31.1 tensorboard_logger==0.1.0
+```
+
+use python 3.7 and downgrade protobuf to 3.20.1
+```bash
+pip install python protobuf=3.20.1
+```
+
+```bash
+pip install numpy==1.19.2
+```
+
+```bash
+model_path="./models/LACP"
+output_path="./outputs/LACP"
+log_path="./logs/LACP" 
+seed=0
+
+set CUDA_VISIBLE_DEVICES=0
+python -W ignore ./main.py --model_path ./models/LACP --output_path ./outputs/LACP --log_path ./logs/LACP --seed 0
+
+```
+
+may need to delete
+<!-- cudart64_100.dll -->
+<!-- https://www.joe0.com/2019/10/19/how-resolve-tensorflow-2-0-error-could-not-load-dynamic-library-cudart64_100-dll-dlerror-cudart64_100-dll-not-found/ -->
