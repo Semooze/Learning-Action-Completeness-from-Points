@@ -118,3 +118,22 @@ use python 3.7 and downgrade protobuf to 3.20.1
 ```bash
 pip install python protobuf=3.20.1
 ```
+
+```bash
+pip install numpy==1.19.2
+```
+
+```bash
+model_path="./models/LACP"
+output_path="./outputs/LACP"
+log_path="./logs/LACP" 
+seed=0
+
+set CUDA_VISIBLE_DEVICES=0
+python -W ignore ./main.py --model_path ./models/LACP --output_path ./outputs/LACP --log_path ./logs/LACP --seed 0 --modal rgb
+
+```
+
+may need to delete
+<!-- cudart64_100.dll -->
+<!-- https://www.joe0.com/2019/10/19/how-resolve-tensorflow-2-0-error-could-not-load-dynamic-library-cudart64_100-dll-dlerror-cudart64_100-dll-not-found/ -->

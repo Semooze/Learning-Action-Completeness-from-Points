@@ -16,7 +16,7 @@ def parse_args():
     parser.add_argument('--budget', type=int, default=25, help='the budget size of optimal sequence search')
     parser.add_argument('--r_act', type=int, default=8)
     parser.add_argument('--class_th', type=float, default=0.5)
-    parser.add_argument('--lr', type=str, default='[0.0001]*3', help='learning rates for steps (list form)')
+    parser.add_argument('--lr', type=str, default='[0.0001]*200', help='learning rates for steps (list form)')
     parser.add_argument('--batch_size', type=int, default=16)
     parser.add_argument('--num_workers', type=int, default=2)
     parser.add_argument('--seed', type=int, default=-1, help='random seed (-1 for no manual seed)')

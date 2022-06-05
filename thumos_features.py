@@ -27,9 +27,9 @@ class ThumosFeature(data.Dataset):
         if self.modal == 'all':
             self.feature_path = []
             for _modal in ['rgb', 'flow']:
-                self.feature_path.append(os.path.join(data_path, 'features', self.mode, _modal))
+                self.feature_path.append(os.path.join(data_path, 'features_2', self.mode, _modal))
         else:
-            self.feature_path = os.path.join(data_path, 'features', self.mode, self.modal)
+            self.feature_path = os.path.join(data_path, 'features_2', self.mode, self.modal)
 
         split_path = os.path.join(data_path, 'split_{}.txt'.format(self.mode))
         split_file = open(split_path, 'r')
@@ -70,6 +70,7 @@ class ThumosFeature(data.Dataset):
         vid_num_seg = 0
 
         if self.modal == 'all':
+            
             rgb_feature = np.load(os.path.join(self.feature_path[0],
                                     vid_name + '.npy')).astype(np.float32)
             flow_feature = np.load(os.path.join(self.feature_path[1],
@@ -89,9 +90,11 @@ class ThumosFeature(data.Dataset):
 
             feature = np.concatenate((rgb_feature, flow_feature), axis=1)
         else:
+
+            print("mode", self.modal)
             feature = np.load(os.path.join(self.feature_path,
                                     vid_name + '.npy')).astype(np.float32)
-
+            print("shape", feature.shape)
             vid_num_seg = feature.shape[0]
 
             if self.sampling == 'random':
@@ -101,12 +104,16 @@ class ThumosFeature(data.Dataset):
             else:
                 raise AssertionError('Not supported sampling !')
 
+            print("feature", feature[sample_idx])
             feature = feature[sample_idx]
 
         return torch.from_numpy(feature), vid_num_seg, sample_idx
 
     def get_label(self, index, vid_num_seg, sample_idx):
         vid_name = self.vid_list[index]
+        print('*'*90, "Annot")
+        print(self.anno['database'])
+        print(self.anno['database'][vid_name])
         anno_list = self.anno['database'][vid_name]['annotations']
         label = np.zeros([self.num_classes], dtype=np.float32)
 
